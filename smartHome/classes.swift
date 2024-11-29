@@ -17,7 +17,7 @@ class Home {
     }
     
     func statusCheck() {
-        print("Device \t Status \t Battery")
+        print("Device \t Room \t Status \t Battery")
         var i = 1
         for device in self.devices {
             print("[\(i)]", terminator: " ")
@@ -52,11 +52,13 @@ class Device {
     var battery: Int
     let name: String
     var isOn: Bool
+    let room: String
     
-    init(name: String) {
+    init(name: String, room: String) {
         self.battery = 100
         self.name = name
         self.isOn = false
+        self.room = room
     }
     
     func toggleOnOrOff() {
@@ -68,13 +70,20 @@ class Device {
             self.battery = max(0, self.battery - 5)
             if self.battery == 0 { self.isOn = false }
         }
-        return "\(self.name) \t \(self.isOn ? "On" : "Off") \t \(self.battery)%"
+        return "\(self.name) \t \(self.room) \t \(self.isOn ? "On" : "Off") \t \(self.battery)%"
     }
 }
 
 class LightingDevice: Device {
+    var brightness: Int
+    
+    init(name: String, room: String, brightness: Int) {
+        self.brightness = brightness
+        super.init(name: name, room: room)
+    }
+    
     override func displayStatus() -> String {
-        return super.displayStatus() + ""
+        return "Lightning D" + super.displayStatus() + "Brightness: \(self.brightness)"
     }
 }
 
